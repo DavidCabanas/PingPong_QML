@@ -11,7 +11,7 @@ Rectangle{
 
     Rectangle
     {
-        id: boardline
+        id: boardLine
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         height: parent.height/100
@@ -30,7 +30,7 @@ Rectangle{
 
     //Raqueta izquierda
     Rectangle {
-        id: leftracket
+        id: leftRacket
         y: (parent.height/2)
         width: (parent.width/27)
         height: (parent.height/5)
@@ -41,17 +41,17 @@ Rectangle{
             id: leftMouse
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton
-            drag.target: leftracket
+            drag.target: leftRacket
             drag.axis: Drag.YAxis
             drag.minimumY: 0
-            drag.maximumY: (board.height - leftracket.height)
+            drag.maximumY: (board.height - leftRacket.height)
         }
     }
 
 
     //Raqueta derecha
     Rectangle {
-        id: rightracket
+        id: rightRacket
         y: (parent.height/2)
         width: (parent.width/27)
         height: (parent.height/5)
@@ -64,10 +64,10 @@ Rectangle{
             id: rightMouse
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton
-            drag.target: rightracket
+            drag.target: rightRacket
             drag.axis: Drag.YAxis
             drag.minimumY: 0
-            drag.maximumY: (board.height - rightracket.height)
+            drag.maximumY: (board.height - rightRacket.height)
         }
     }
 
@@ -75,17 +75,27 @@ Rectangle{
     //Pelota
     Rectangle {
         id: ball
-        width: leftracket.width/2
-        height: leftracket.width/2
+        width: leftRacket.width/2
+        height: leftRacket.width/2
         radius: width
         color: "#e1f708"
-        x: pingPong.ballX
-        y: pingPong.ballY
 
-        SequentialAnimation {
-            running: true
-            NumberAnimation { target: ball; property: "x"; duration: 50 }
-            NumberAnimation { target: ball; property: "y"; duration: 50 }
+        PropertyAnimation on x{
+            to: 600
+            duration: 5000
         }
+        PropertyAnimation on y{
+            to: 800
+            duration: 5000
+        }
+
+
+
+        /*SequentialAnimation {
+            running: true
+            NumberAnimation { target: ball ; property: "x" ; to: 0 ; duration: 50 }
+            NumberAnimation { target: ball ; property: "y" ; to: 0 ; duration: 50 }
+        }*/
     }
 }
+

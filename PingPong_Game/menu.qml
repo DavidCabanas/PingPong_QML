@@ -18,7 +18,7 @@ Rectangle {
     }
 
     Rectangle {
-        id: titlebox
+        id: titleBox
         y: 55
         height: 91
         anchors.horizontalCenter: parent
@@ -49,7 +49,7 @@ Rectangle {
     }
 
     Button {
-        id: startbutton
+        id: startButton
         y: 310
         text: qsTr("Start")
         anchors.bottom: parent.bottom
@@ -64,7 +64,7 @@ Rectangle {
     }
 
     Button {
-        id: closebutton
+        id: closeButton
         x: 476
         y: 310
         text: qsTr("Close")
@@ -73,7 +73,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.rightMargin: 64
         onClicked: {
-
+            Qt.quit()
         }
     }
 
