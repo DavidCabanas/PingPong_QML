@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <Qt>
+#include "pingpong.h"
 
 int main(int argc, char *argv[])
 {

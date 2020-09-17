@@ -2,12 +2,15 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls.Material 2.0
 
-Rectangle{
 
+
+Rectangle{
+    id: board
     visible: true
-    width: 640
-    height: 480
+    width: 600
+    height: 300
     color: "#0c3a01"
+
 
     Rectangle
     {
@@ -26,6 +29,7 @@ Rectangle{
         height: parent.height
         width: parent.width/100
     }
+
 
 
     //Raqueta izquierda
@@ -71,7 +75,39 @@ Rectangle{
         }
     }
 
+    property double leftRacketY: leftracket.y
+    onLeftRacketYChanged: pingPong.updateLeftRacket(leftracket.y)
 
+    property double leftRacketUpdate: pingPong.leftRacketY
+    onLeftRacketUpdateChanged: leftracket.y = pingPong.leftRacketY
+
+    property double rightRacketY: rightracket.y
+    onRightRacketYChanged: pingPong.updateRightRacket(rightracket.y)
+
+    property double rightRacketUpdate: pingPong.rightRacketY
+    onRightRacketUpdateChanged: rightracket.y = pingPong.rightRacketY
+
+
+
+    Text {
+        id: leftResult
+        text: pingPong.leftResult
+        font.bold: true
+        font.pixelSize: 30
+        anchors.right: net.left
+        anchors.top: parent.top
+        anchors.margins: 15
+    }
+
+    Text {
+        id: rightResult
+        text: pingPong.rightResult
+        font.bold: true
+        font.pixelSize: 30
+        anchors.left: net.right
+        anchors.top: parent.top
+        anchors.margins: 15
+    }
     //Pelota
     Rectangle {
         id: ball
@@ -80,22 +116,35 @@ Rectangle{
         radius: width
         color: "#e1f708"
 
-        PropertyAnimation on x{
-            to: 600
-            duration: 5000
-        }
-        PropertyAnimation on y{
-            to: 800
-            duration: 5000
-        }
 
 
-
-        /*SequentialAnimation {
+        ParallelAnimation {
             running: true
-            NumberAnimation { target: ball ; property: "x" ; to: 0 ; duration: 50 }
-            NumberAnimation { target: ball ; property: "y" ; to: 0 ; duration: 50 }
-        }*/
+            NumberAnimation {
+                target: ball
+                property: "x"
+                from: 0
+                to: board.width  - ball.width
+                duration: 2000
+
+            }
+
+            NumberAnimation {
+                target: ball
+                property: "y"
+                from: 0
+                to: board.height - ball.height
+                duration: 2000
+
+
+            }
+        }
+
+
+
     }
+
+
+
 }
 

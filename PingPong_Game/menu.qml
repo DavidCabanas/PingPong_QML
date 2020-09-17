@@ -28,6 +28,8 @@ Rectangle {
         anchors.rightMargin: 190
         anchors.left: parent.left
         anchors.leftMargin: 190
+        anchors.top: parent.top
+        anchors.topMargin: 64
         clip: false
         border.width: 2
         Text {
@@ -53,7 +55,7 @@ Rectangle {
         y: 310
         text: qsTr("Start")
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 130
+        anchors.bottomMargin: 100
         anchors.left: parent.left
         anchors.leftMargin: 64
         onClicked:  {
@@ -69,7 +71,7 @@ Rectangle {
         y: 310
         text: qsTr("Close")
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 130
+        anchors.bottomMargin: 100
         anchors.right: parent.right
         anchors.rightMargin: 64
         onClicked: {
@@ -80,4 +82,3 @@ Rectangle {
 
 
 }
-
