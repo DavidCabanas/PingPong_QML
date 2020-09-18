@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls.Material 2.0
-
+import "gameControler.js"
 
 
 Rectangle{
@@ -75,19 +75,6 @@ Rectangle{
         }
     }
 
-    property double leftRacketY: leftracket.y
-    onLeftRacketYChanged: pingPong.updateLeftRacket(leftracket.y)
-
-    property double leftRacketUpdate: pingPong.leftRacketY
-    onLeftRacketUpdateChanged: leftracket.y = pingPong.leftRacketY
-
-    property double rightRacketY: rightracket.y
-    onRightRacketYChanged: pingPong.updateRightRacket(rightracket.y)
-
-    property double rightRacketUpdate: pingPong.rightRacketY
-    onRightRacketUpdateChanged: rightracket.y = pingPong.rightRacketY
-
-
 
     Text {
         id: leftResult
@@ -111,14 +98,18 @@ Rectangle{
     //Pelota
     Rectangle {
         id: ball
+        x: 0
+        y: 0
         width: leftRacket.width/2
         height: leftRacket.width/2
         radius: width
         color: "#e1f708"
 
 
+        }
 
-        ParallelAnimation {
+
+       /* ParallelAnimation {
             running: true
             NumberAnimation {
                 target: ball
@@ -138,11 +129,11 @@ Rectangle{
 
 
             }
-        }
+        }*/
 
 
 
-    }
+
 
 
 

@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>menu.qml</file>
         <file>board.qml</file>
+        <file>gameControler.js</file>
     </qresource>
 </RCC>
