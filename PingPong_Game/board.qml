@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls.Material 2.0
-import "gameControler.js"
+import "gameControler.js" as GameControler
 
 
 Rectangle{
@@ -11,6 +11,7 @@ Rectangle{
     height: 300
     color: "#0c3a01"
 
+    property Item ballObj: ball
 
     Rectangle
     {
@@ -104,17 +105,20 @@ Rectangle{
         height: leftRacket.width/2
         radius: width
         color: "#e1f708"
-
-
-        }
-
+    }
+    Timer{
+        interval: 500
+        running: true
+        repeat: true
+        onTriggered: board
+    }
 
        /* ParallelAnimation {
             running: true
             NumberAnimation {
                 target: ball
                 property: "x"
-                from: 0
+
                 to: board.width  - ball.width
                 duration: 2000
 
@@ -123,18 +127,14 @@ Rectangle{
             NumberAnimation {
                 target: ball
                 property: "y"
-                from: 0
+
                 to: board.height - ball.height
                 duration: 2000
-
-
             }
+
         }*/
 
-
-
-
-
+        Component.onCompleted: ballObj = GameControler.moveBall(ball);
 
 
 }
