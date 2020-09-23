@@ -11,7 +11,6 @@ Rectangle{
     height: 300
     color: "#0c3a01"
 
-    property Item ballObj: ball
 
     Rectangle
     {
@@ -99,7 +98,7 @@ Rectangle{
     //Pelota
     Rectangle {
         id: ball
-        x: 0
+        x: 300
         y: 0
         width: leftRacket.width/2
         height: leftRacket.width/2
@@ -107,19 +106,19 @@ Rectangle{
         color: "#e1f708"
     }
     Timer{
-        interval: 500
+        interval: 16
         running: true
         repeat: true
-        onTriggered: board
+        onTriggered: GameControler.tick()
     }
 
-       /* ParallelAnimation {
+        /*ParallelAnimation {
             running: true
             NumberAnimation {
                 target: ball
                 property: "x"
 
-                to: board.width  - ball.width
+
                 duration: 2000
 
             }
@@ -128,13 +127,13 @@ Rectangle{
                 target: ball
                 property: "y"
 
-                to: board.height - ball.height
+
                 duration: 2000
             }
 
         }*/
 
-        Component.onCompleted: ballObj = GameControler.moveBall(ball);
+        Component.onCompleted: GameControler.ballPosition(ball);
 
 
 }
