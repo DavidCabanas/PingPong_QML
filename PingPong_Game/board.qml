@@ -10,7 +10,7 @@ Rectangle{
     width: 600
     height: 300
     color: "#0c3a01"
-
+    property Item ballObj: ball
 
     Rectangle
     {
@@ -78,7 +78,7 @@ Rectangle{
 
     Text {
         id: leftResult
-        text: pingPong.leftResult
+        //text: pingPong.leftResult
         font.bold: true
         font.pixelSize: 30
         anchors.right: net.left
@@ -88,7 +88,7 @@ Rectangle{
 
     Text {
         id: rightResult
-        text: pingPong.rightResult
+        //text: pingPong.rightResult
         font.bold: true
         font.pixelSize: 30
         anchors.left: net.right
@@ -133,8 +133,7 @@ Rectangle{
 
         }*/
 
-        Component.onCompleted: GameControler.ballPosition(ball);
-
+    Component.onCompleted: GameControler.setBallObject(ballObj);
 
 }
 
