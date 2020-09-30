@@ -1,6 +1,6 @@
 let     destination;
 let     destinationSet = false;
-const   distance = 5;
+const   distance = 1;
 const   gameWidth = 601;
 const   gameHeight = 301;
 const   minWidth = 0;
@@ -19,17 +19,19 @@ function setBallObject(ballObj){
 
 function tick(){
     console.log('tick')
-    if(!destinationSet){
+    /*if(!destinationSet){
         destination = setDestination();
         destinationSet = true;
-    }
-    ball.x = destination.x - ball.width / 2;
-    ball.y = destination.y - ball.height / 2;
+    }*/
+    destination = setDestination();
+    console.log("x: ", destination.x, " y: ", destination.y)
+    ball.x = destination.x/* - ball.width / 2*/;
+    ball.y = destination.y/* - ball.height / 2*/;
     //updateBallLocation()
 }
 
 function setDestination(){
-    const randomLoc = getRandomLocation();
+    //const randomLoc = getRandomLocation();
     let dest = getEndPointFromLocation();
 
     return dest
@@ -105,14 +107,14 @@ function getMiddlePointLocation(){
 function getDiagonalAngle (){
     let startingPoint = {'x':0, 'y':0}, middlePoint = {'x':0, 'y':0}, angle = 0;
 
-    startingPoint = ball;
+    startingPoint = {'x':ball.x, 'y':ball.y};
     middlePoint = getMiddlePointLocation();
 
     if(startingPoint.x === minWidth || startingPoint.x === maxWidth){
         if(startingPoint.y > middlePoint.y){
-            angle = Math.atan(startingPoint.y / maxWidth)
+            angle = Math.atan(maxWidth / startingPoint.y)
         }else{
-            angle = Math.atan((maxHeight - startingPoint.y) / maxWidth)
+            angle = Math.atan(maxWidth / (maxHeight - startingPoint.y))
         }
     }
     if(startingPoint.y === minHeight || startingPoint.y === maxHeight){
@@ -132,39 +134,39 @@ function getEndPointFromLocation(){
     let oppositeSide = 0, adjacentSide = 0;
 
     // case 1: ball in starting position
-    if(ball.x == 300 && ball.y == 0){ // the condition is not declared
-    startingPoint = ball;
-    previousStartingPoint = ball;
-    middlePoint = getRandomLocation();
+    if(ball.x === 300 && ball.y === 0){
+        startingPoint = ball;
+        previousStartingPoint = {'x':ball.x, 'y':ball.y};
+        middlePoint = getRandomLocation();
 
         if (startingPoint.x > middlePoint.x){
-        adjacentSide = startingPoint.x - middlePoint.x;
-        oppositeSide = middlePoint.y;
-        angleOne = Math.atan(oppositeSide / adjacentSide);
+            adjacentSide = startingPoint.x - middlePoint.x;
+            oppositeSide = middlePoint.y;
+            angleOne = Math.atan(oppositeSide / adjacentSide);
 
-        if(angleOne > angleFortyFive){
-            adjacentSide = Math.round(maxHeight / Math.tan(angleOne));
-            finalPoint.x = adjacentSide;
-            finalPoint.y = maxHeight;
+            if(angleOne > angleFortyFive){
+                adjacentSide = Math.round(maxHeight / Math.tan(angleOne));
+                finalPoint.x = adjacentSide;
+                finalPoint.y = maxHeight;
+            }else{
+                oppositeSide = Math.round(Math.tan(angleOne) * mediumWidth);
+                finalPoint.x = minWidth;
+                finalPoint.y = oppositeSide;
+            }
         }else{
-            oppositeSide = Math.round(Math.tan(angleOne) * mediumWidth);
-            finalPoint.x = minWidth;
-            finalPoint.y = oppositeSide;
+            adjacentSide = middlePoint.x - startingPoint.x;
+            oppositeSide = middlePoint.y;
+            angleOne = Math.atan(oppositeSide / adjacentSide);
+            if (angleOne > angleFortyFive){
+                adjacentSide = Math.round(maxHeight / Math.tan(angleOne));
+                finalPoint.x = adjacentSide;
+                finalPoint.y = maxHeight;
+            }else{
+                oppositeSide = Math.round(Math.tan(angleOne) * mediumWidth);
+                finalPoint.x = maxWidth;
+                finalPoint.y = oppositeSide;
+            }
         }
-        }else{
-        adjacentSide = middlePoint.x - startingPoint.x;
-        oppositeSide = middlePoint.y;
-        angleOne = Math.atan(oppositeSide / adjacentSide);
-        if (angleOne > angleFortyFive){
-            adjacentSide = Math.round(maxHeight / Math.tan(angleOne));
-            finalPoint.x = adjacentSide;
-            finalPoint.y = maxHeight;
-        }else{
-            oppositeSide = Math.round(Math.tan(angleOne) * mediumWidth);
-            finalPoint.x = maxWidth;
-            finalPoint.y = oppositeSide;
-        }
-    }
 
         return finalPoint;
     }
@@ -174,13 +176,13 @@ function getEndPointFromLocation(){
         startingPoint = ball;
         middlePoint = getMiddlePointLocation();
 
-        if(startingPoint.x == minWidth && (startingPoint.y !== minHeight || startingPoint.y !== maxHeight)){
+        if(startingPoint.x === minWidth && (startingPoint.y !== minHeight || startingPoint.y !== maxHeight)){
             if(startingPoint.y > middlePoint.y){
                 if(angleOne > getDiagonalAngle()){
                     oppositeSide = maxWidth;
                     adjacentSide = oppositeSide / Math.tan(angleOne);
                     finalPoint.x = maxWidth;
-                    finalPoint.y = maxHeight - startingPoint.y - adjacentSide;
+                    finalPoint.y = startingPoint.y - adjacentSide;
                 }else{
                     adjacentSide = startingPoint.y;
                     oppositeSide = adjacentSide * Math.tan(angleOne);
@@ -202,7 +204,7 @@ function getEndPointFromLocation(){
             }
         }
 
-        if(startingPoint.x == maxWidth && (startingPoint.y !== minHeight || startingPoint.y !== maxHeight)){
+        if(startingPoint.x === maxWidth && (startingPoint.y !== minHeight || startingPoint.y !== maxHeight)){
             if(startingPoint.y > middlePoint.y){
                 if(angleOne > getDiagonalAngle()){
                     oppositeSide = maxWidth;
@@ -230,7 +232,7 @@ function getEndPointFromLocation(){
             }
         }
 
-        if(startingPoint.y == minHeight && (startingPoint.x !== minWidth || startingPoint.x !== maxWidth)){
+        if(startingPoint.y === minHeight && (startingPoint.x !== minWidth || startingPoint.x !== maxWidth)){
             if(startingPoint.x < mediumWidth){
                 if(startingPoint.x > middlePoint.x){
                     if(angleOne > getDiagonalAngle()){
@@ -285,7 +287,7 @@ function getEndPointFromLocation(){
                 }
             }
 
-            if(startingPoint.x == mediumWidth){
+            if(startingPoint.x === mediumWidth){
                 if(startingPoint.x > middlePoint){
                     if(angleOne > angleFortyFive){
                         oppositeSide = maxHeight;
@@ -314,7 +316,7 @@ function getEndPointFromLocation(){
             }
         }
 
-        if(startingPoint.y == maxHeight && (startingPoint.x !== minWidth || startingPoint.x !== maxWidth)){
+        if(startingPoint.y === maxHeight && (startingPoint.x !== minWidth || startingPoint.x !== maxWidth)){
             if(startingPoint.x < mediumWidth){
                 if(startingPoint.x > middlePoint.x){
                     if(angleOne > getDiagonalAngle()){
@@ -369,7 +371,7 @@ function getEndPointFromLocation(){
                 }
             }
 
-            if(startingPoint.x == mediumWidth){
+            if(startingPoint.x === mediumWidth){
                 if(startingPoint.x > middlePoint){
                     if(angleOne > angleFortyFive){
                         oppositeSide = maxHeight;
@@ -399,7 +401,7 @@ function getEndPointFromLocation(){
         }
 
 
-        previousStartingPoint = startingPoint;
+        previousStartingPoint = {'x':ball.x, 'y':ball.y};
         return finalPoint;
    }
 }
