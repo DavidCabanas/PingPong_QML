@@ -410,7 +410,6 @@ function getEndPointFromLocation(){
 }
 
 function updateBallLocation(){
-    // Take currentLocation and destination, and move towards that destination by distance
     let startingPoint = {'x':0, 'y':0}, updateBall = {'x':0, 'y':0};
     let oppositeSide = 0, adjacentSide = 0;
 
