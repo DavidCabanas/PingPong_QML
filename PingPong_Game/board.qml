@@ -106,32 +106,11 @@ Rectangle{
         color: "#e1f708"
     }
     Timer{
-        interval: 16
+        interval: 1
         running: true
         repeat: true
         onTriggered: GameControler.tick()
     }
-
-        /*ParallelAnimation {
-            running: true
-            NumberAnimation {
-                target: ball
-                property: "x"
-
-
-                duration: 2000
-
-            }
-
-            NumberAnimation {
-                target: ball
-                property: "y"
-
-
-                duration: 2000
-            }
-
-        }*/
 
     Component.onCompleted: GameControler.setBallObject(ballObj);
 

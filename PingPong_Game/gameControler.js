@@ -8,10 +8,14 @@ const   mediumWidth = 300;
 const   maxWidth = 600;
 const   minHeight = 0;
 const   maxHeight = 300;
-let     angleOne = 0, angleTwo = 0, angleThree = 0;
+let     angleOne = 0, angleTwo = 0;
 const   angleFortyFive = Math.PI / 4;
+const   angleNinety = Math.PI / 2;
+const   angleOneHundredEighty = Math.PI;
 let     ball;
-let     previousStartingPoint = {'x':0 , 'y':0}
+let     previousStartingPoint = {'x':0 , 'y':0};
+let     hypotenuse = 1;
+let     endPoint = {'x':0, 'y':0};
 
 function setBallObject(ballObj){
     ball = ballObj;
@@ -23,35 +27,25 @@ function tick(){
         destination = setDestination();
         destinationSet = true;
     }*/
+
     destination = setDestination();
     console.log("x: ", destination.x, " y: ", destination.y)
-    ball.x = destination.x/* - ball.width / 2*/;
-    ball.y = destination.y/* - ball.height / 2*/;
-    //updateBallLocation()
+    ball.x = destination.x// - ball.width / 2;
+    ball.y = destination.y// - ball.height / 2;
+
 }
 
 function setDestination(){
-    //const randomLoc = getRandomLocation();
-    let dest = getEndPointFromLocation();
+    let dest = updateBallLocation()
 
     return dest
 }
 
 function getRandomLocation(){
-    // generate random location
     let point = {'x':0 , 'y':0}
 
     point['x']= Math.round(Math.random() * gameWidth)
     point['y']= Math.round(Math.random() * gameHeight)
-
-    /*if (point['x'] === mediumWidth || point['y'] === minHeight){
-        while (point['x'] === mediumWidth){
-            point['x']= Math.round(Math.random() * gameWidth)
-        }
-        while (point['y'] === minHeight){
-            point['y']= Math.round(Math.random() * gameHeight)
-        }
-    }*/
 
     return point;
 }
@@ -175,6 +169,7 @@ function getEndPointFromLocation(){
     else{
         startingPoint = ball;
         middlePoint = getMiddlePointLocation();
+        angleTwo = angleOneHundredEighty - (angleNinety + angleOne);
 
         if(startingPoint.x === minWidth && (startingPoint.y !== minHeight || startingPoint.y !== maxHeight)){
             if(startingPoint.y > middlePoint.y){
@@ -202,6 +197,9 @@ function getEndPointFromLocation(){
                     finalPoint.y = maxHeight;
                 }
             }
+            previousStartingPoint = {'x':ball.x, 'y':ball.y};
+
+            return finalPoint;
         }
 
         if(startingPoint.x === maxWidth && (startingPoint.y !== minHeight || startingPoint.y !== maxHeight)){
@@ -230,6 +228,9 @@ function getEndPointFromLocation(){
                     finalPoint.y = maxHeight;
                 }
             }
+            previousStartingPoint = {'x':ball.x, 'y':ball.y};
+
+            return finalPoint;
         }
 
         if(startingPoint.y === minHeight && (startingPoint.x !== minWidth || startingPoint.x !== maxWidth)){
@@ -314,6 +315,9 @@ function getEndPointFromLocation(){
                     }
                 }
             }
+            previousStartingPoint = {'x':ball.x, 'y':ball.y};
+
+            return finalPoint;
         }
 
         if(startingPoint.y === maxHeight && (startingPoint.x !== minWidth || startingPoint.x !== maxWidth)){
@@ -398,16 +402,41 @@ function getEndPointFromLocation(){
                     }
                 }
             }
+            previousStartingPoint = {'x':ball.x, 'y':ball.y};
+
+            return finalPoint;
         }
-
-
-        previousStartingPoint = {'x':ball.x, 'y':ball.y};
-        return finalPoint;
    }
 }
 
 function updateBallLocation(){
     // Take currentLocation and destination, and move towards that destination by distance
+    let startingPoint = {'x':0, 'y':0}, updateBall = {'x':0, 'y':0};
+    let oppositeSide = 0, adjacentSide = 0;
+
+
+    startingPoint = {'x':ball.x, 'y':ball.y};
+
+    if (startingPoint.x === mediumWidth && startingPoint.y === minHeight){
+        endPoint = getEndPointFromLocation();
+    }
+
+    adjacentSide = Math.cos(angleOne) * hypotenuse;
+    oppositeSide = Math.sin(angleOne) * hypotenuse;
+
+    if (startingPoint.x > endPoint.x){
+        updateBall.x = startingPoint.x - adjacentSide
+    }else{
+        updateBall.x = startingPoint.x + adjacentSide
+    }
+
+    if (startingPoint.y > endPoint.y){
+        updateBall.y = startingPoint.y - oppositeSide
+    }else{
+        updateBall.y = startingPoint.y + oppositeSide
+    }
+
+    return updateBall;
 }
 
 function boundariesBoard (){
