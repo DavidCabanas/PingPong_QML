@@ -414,7 +414,6 @@ function updateBallLocation(){
     let startingPoint = {'x':0, 'y':0}, updateBall = {'x':0, 'y':0};
     let oppositeSide = 0, adjacentSide = 0;
 
-
     startingPoint = {'x':ball.x, 'y':ball.y};
 
     if (startingPoint.x === mediumWidth && startingPoint.y === minHeight){
