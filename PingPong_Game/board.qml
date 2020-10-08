@@ -106,7 +106,7 @@ Rectangle{
         color: "#e1f708"
     }
     Timer{
-        interval: 1
+        interval: 16
         running: true
         repeat: true
         onTriggered: GameControler.tick()

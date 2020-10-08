@@ -14,7 +14,7 @@ const   angleNinety = Math.PI / 2;
 const   angleOneHundredEighty = Math.PI;
 let     ball;
 let     previousStartingPoint = {'x':0 , 'y':0};
-let     hypotenuse = 1;
+let     hypotenuse = 10;
 let     endPoint = {'x':0, 'y':0};
 
 function setBallObject(ballObj){
@@ -28,11 +28,11 @@ function tick(){
         destinationSet = true;
     }*/
 
+    boundariesBoard()
     destination = setDestination();
     console.log("x: ", destination.x, " y: ", destination.y)
     ball.x = destination.x// - ball.width / 2;
     ball.y = destination.y// - ball.height / 2;
-
 }
 
 function setDestination(){
@@ -60,38 +60,38 @@ function getMiddlePointLocation(){
 
     if (startingPoint.x === minWidth && (startingPoint.y !== minHeight || startingPoint.y !== maxHeight)){
         if(startingPoint.y > previousStartingPoint.y){
-            middlePoint.y = startingPoint.y + oppositeSide;
-            middlePoint.x = adjacentSide;
+            middlePoint.y = startingPoint.y + adjacentSide;
+            middlePoint.x = oppositeSide;
         }else{
-            middlePoint.y = startingPoint.y - oppositeSide;
-            middlePoint.x = adjacentSide;
+            middlePoint.y = startingPoint.y - adjacentSide;
+            middlePoint.x = oppositeSide;
         }
     }
     if (startingPoint.x === maxWidth && (startingPoint.y !== minHeight || startingPoint.y !== maxHeight)){
         if(startingPoint.y > previousStartingPoint.y){
-            middlePoint.y = startingPoint + oppositeSide;
-            middlePoint.x = maxWidth - adjacentSide;
+            middlePoint.y = startingPoint.y + adjacentSide;
+            middlePoint.x = maxWidth - oppositeSide;
         }else{
-            middlePoint.y = startingPoint.y - oppositeSide;
-            middlePoint.x = maxWidth - adjacentSide;
+            middlePoint.y = startingPoint.y - adjacentSide;
+            middlePoint.x = maxWidth - oppositeSide;
         }
     }
     if (startingPoint.y === minHeight && (startingPoint.x !== minWidth || startingPoint.x !== maxWidth)){
         if(startingPoint.x > previousStartingPoint.x){
-            middlePoint.x = startingPoint.x + oppositeSide;
-            middlePoint.y = adjacentSide;
+            middlePoint.x = startingPoint.x + adjacentSide;
+            middlePoint.y = oppositeSide;
         }else{
-            middlePoint.x = startingPoint.x - oppositeSide;
-            middlePoint.y = adjacentSide;
+            middlePoint.x = startingPoint.x - adjacentSide;
+            middlePoint.y = oppositeSide;
         }
     }
     if (startingPoint.y === maxHeight && (startingPoint.x !== minWidth || startingPoint.x !== maxWidth)){
         if(startingPoint.x > previousStartingPoint.x){
-            middlePoint.x = startingPoint.x + oppositeSide;
-            middlePoint.y = maxHeight - adjacentSide;
+            middlePoint.x = startingPoint.x + adjacentSide;
+            middlePoint.y = maxHeight - oppositeSide;
         }else{
-            middlePoint.x = startingPoint.x - oppositeSide;
-            middlePoint.y = maxHeight - adjacentSide;
+            middlePoint.x = startingPoint.x - adjacentSide;
+            middlePoint.y = maxHeight - oppositeSide;
         }
     }
 
@@ -139,11 +139,13 @@ function getEndPointFromLocation(){
             angleOne = Math.atan(oppositeSide / adjacentSide);
 
             if(angleOne > angleFortyFive){
-                adjacentSide = Math.round(maxHeight / Math.tan(angleOne));
-                finalPoint.x = adjacentSide;
-                finalPoint.y = maxHeight;
+                oppositeSide = maxHeight;
+                adjacentSide = Math.round(oppositeSide / Math.tan(angleOne));
+                finalPoint.x = startingPoint.x - adjacentSide;
+                finalPoint.y = oppositeSide;
             }else{
-                oppositeSide = Math.round(Math.tan(angleOne) * mediumWidth);
+                adjacentSide = startingPoint.x;
+                oppositeSide = Math.round(Math.tan(angleOne) * adjacentSide);
                 finalPoint.x = minWidth;
                 finalPoint.y = oppositeSide;
             }
@@ -152,11 +154,13 @@ function getEndPointFromLocation(){
             oppositeSide = middlePoint.y;
             angleOne = Math.atan(oppositeSide / adjacentSide);
             if (angleOne > angleFortyFive){
-                adjacentSide = Math.round(maxHeight / Math.tan(angleOne));
-                finalPoint.x = adjacentSide;
-                finalPoint.y = maxHeight;
+                oppositeSide = maxHeight;
+                adjacentSide = Math.round(oppositeSide / Math.tan(angleOne));
+                finalPoint.x = startingPoint.x + adjacentSide;
+                finalPoint.y = oppositeSide;
             }else{
-                oppositeSide = Math.round(Math.tan(angleOne) * mediumWidth);
+                adjacentSide = maxWidth - startingPoint.x;
+                oppositeSide = Math.round(Math.tan(angleOne) * adjacentSide);
                 finalPoint.x = maxWidth;
                 finalPoint.y = oppositeSide;
             }
@@ -197,9 +201,6 @@ function getEndPointFromLocation(){
                     finalPoint.y = maxHeight;
                 }
             }
-            previousStartingPoint = {'x':ball.x, 'y':ball.y};
-
-            return finalPoint;
         }
 
         if(startingPoint.x === maxWidth && (startingPoint.y !== minHeight || startingPoint.y !== maxHeight)){
@@ -228,9 +229,6 @@ function getEndPointFromLocation(){
                     finalPoint.y = maxHeight;
                 }
             }
-            previousStartingPoint = {'x':ball.x, 'y':ball.y};
-
-            return finalPoint;
         }
 
         if(startingPoint.y === minHeight && (startingPoint.x !== minWidth || startingPoint.x !== maxWidth)){
@@ -315,9 +313,6 @@ function getEndPointFromLocation(){
                     }
                 }
             }
-            previousStartingPoint = {'x':ball.x, 'y':ball.y};
-
-            return finalPoint;
         }
 
         if(startingPoint.y === maxHeight && (startingPoint.x !== minWidth || startingPoint.x !== maxWidth)){
@@ -402,10 +397,12 @@ function getEndPointFromLocation(){
                     }
                 }
             }
-            previousStartingPoint = {'x':ball.x, 'y':ball.y};
 
-            return finalPoint;
         }
+
+        previousStartingPoint = {'x':ball.x, 'y':ball.y};
+
+        return finalPoint;
    }
 }
 
@@ -434,10 +431,31 @@ function updateBallLocation(){
         updateBall.y = startingPoint.y + oppositeSide
     }
 
+    if(updateBall.x > maxWidth - 1){
+        updateBall.x = maxWidth;
+    }
+
+    if(updateBall.x < minWidth + 1){
+        updateBall.x = minWidth;
+    }
+
+    if(updateBall.y > maxHeight - 1){
+        updateBall.y = maxHeight;
+    }
+
+    if(updateBall.y < minHeight + 1){
+        updateBall.y = minHeight;
+    }
+
     return updateBall;
 }
 
 function boundariesBoard (){
-
+    if(ball.y <= minHeight || ball.y >= maxHeight){
+        endPoint = getEndPointFromLocation();
+    }
+    if(ball.x <= minWidth || ball.x >= maxWidth){
+        endPoint = getEndPointFromLocation();
+    }
 }
 
