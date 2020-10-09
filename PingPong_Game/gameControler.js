@@ -3,9 +3,9 @@ let     destinationSet = false;
 const   distance = 1;
 const   gameWidth = 601;
 const   gameHeight = 301;
-const   minWidth = 0;
+let     minWidth = 0;
 const   mediumWidth = 300;
-const   maxWidth = 600;
+let     maxWidth = 600;
 const   minHeight = 0;
 const   maxHeight = 300;
 let     angleOne = 0, angleTwo = 0;
@@ -13,12 +13,16 @@ const   angleFortyFive = Math.PI / 4;
 const   angleNinety = Math.PI / 2;
 const   angleOneHundredEighty = Math.PI;
 let     ball;
+let     leftRacket;
+let     rightRacket;
 let     previousStartingPoint = {'x':0 , 'y':0};
 let     hypotenuse = 10;
 let     endPoint = {'x':0, 'y':0};
 
-function setBallObject(ballObj){
+function gameSetup(ballObj, leftRacketObj, rightRacketObj){
     ball = ballObj;
+    leftRacket = leftRacketObj;
+    rightRacket = rightRacketObj;
 }
 
 function tick(){
@@ -28,11 +32,14 @@ function tick(){
         destinationSet = true;
     }*/
 
-    boundariesBoard()
+    boundariesBoard();
+    boundariesRackets();
     destination = setDestination();
-    console.log("x: ", destination.x, " y: ", destination.y)
+    console.log("x: ", destination.x, " y: ", destination.y);
     ball.x = destination.x// - ball.width / 2;
     ball.y = destination.y// - ball.height / 2;
+    minWidth = 0;
+    maxWidth = 600;
 }
 
 function setDestination(){
@@ -450,11 +457,21 @@ function updateBallLocation(){
     return updateBall;
 }
 
-function boundariesBoard (){
+function boundariesBoard(){
     if(ball.y <= minHeight || ball.y >= maxHeight){
         endPoint = getEndPointFromLocation();
     }
     if(ball.x <= minWidth || ball.x >= maxWidth){
+    }
+}
+
+function boundariesRackets(){
+    if(ball.x <= leftRacket.width && (ball.y >= leftRacket.y && (ball.y <= leftRacket.y + leftRacket.height) )){
+        minWidth = leftRacket.width;
+        endPoint = getEndPointFromLocation();
+    }
+    if(ball.x >= (maxWidth - rightRacket.width) && (ball.y >= rightRacket.y && (ball.y <= rightRacket.y + rightRacket.height) )){
+        maxWidth = maxWidth - rightRacket.width;
         endPoint = getEndPointFromLocation();
     }
 }

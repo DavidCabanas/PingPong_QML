@@ -11,6 +11,8 @@ Rectangle{
     height: 300
     color: "#0c3a01"
     property Item ballObj: ball
+    property Item leftRacketObj: leftRacket
+    property Item rightRacketObj: rightRacket
 
     Rectangle
     {
@@ -106,13 +108,14 @@ Rectangle{
         color: "#e1f708"
     }
     Timer{
-        interval: 16
+        interval: 30
         running: true
         repeat: true
         onTriggered: GameControler.tick()
     }
 
-    Component.onCompleted: GameControler.setBallObject(ballObj);
+    Component.onCompleted: GameControler.gameSetup(ballObj, leftRacketObj, rightRacketObj);
+
 
 }
 
