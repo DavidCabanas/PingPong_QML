@@ -14,30 +14,32 @@ const   angleNinety = Math.PI / 2;
 const   angleOneHundredEighty = Math.PI;
 let     ball;
 let     leftRacket;
+let     leftCounter = 0;
 let     rightRacket;
+let     rightCounter = 0;
+let     leftResult;
+let     rightResult;
 let     previousStartingPoint = {'x':0 , 'y':0};
 let     hypotenuse = 10;
 let     endPoint = {'x':0, 'y':0};
 
-function gameSetup(ballObj, leftRacketObj, rightRacketObj){
+function gameSetup(ballObj, leftRacketObj, rightRacketObj, leftResultObj, rightResultObj){
     ball = ballObj;
     leftRacket = leftRacketObj;
     rightRacket = rightRacketObj;
+    leftResult = leftResultObj;
+    rightResult = rightResultObj;
 }
 
 function tick(){
     console.log('tick')
-    /*if(!destinationSet){
-        destination = setDestination();
-        destinationSet = true;
-    }*/
-
     boundariesBoard();
     boundariesRackets();
     destination = setDestination();
     console.log("x: ", destination.x, " y: ", destination.y);
-    ball.x = destination.x// - ball.width / 2;
-    ball.y = destination.y// - ball.height / 2;
+    ball.x = destination.x;
+    ball.y = destination.y;
+    updateLocationRightRacket();
     minWidth = 0;
     maxWidth = 600;
 }
@@ -462,6 +464,7 @@ function boundariesBoard(){
         endPoint = getEndPointFromLocation();
     }
     if(ball.x <= minWidth || ball.x >= maxWidth){
+        resultCounter()
     }
 }
 
@@ -473,6 +476,36 @@ function boundariesRackets(){
     if(ball.x >= (maxWidth - rightRacket.width) && (ball.y >= rightRacket.y && (ball.y <= rightRacket.y + rightRacket.height) )){
         maxWidth = maxWidth - rightRacket.width;
         endPoint = getEndPointFromLocation();
+    }
+}
+
+function resultCounter(){
+    if(ball.x <= minWidth){
+        rightCounter = rightCounter + 1;
+        rightResult.text = rightCounter;
+        resetBall();
+    }
+    if(ball.x >= maxWidth){
+        leftCounter = leftCounter + 1;
+        leftResult.text = leftCounter;
+        resetBall();
+    }
+}
+
+function resetBall(){
+    ball.x = mediumWidth;
+    ball.y = minHeight;
+}
+
+function updateLocationRightRacket(){
+    if(previousStartingPoint.x < endPoint.x){
+        rightRacket.y = ball.y -30;
+        if(rightRacket.y >= (maxHeight - rightRacket.height)){
+            rightRacket.y = maxHeight - rightRacket.height;
+        }
+        if(rightRacket.y <= minHeight){
+            rightRacket.y = minHeight;
+        }
     }
 }
 

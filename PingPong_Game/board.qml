@@ -13,6 +13,8 @@ Rectangle{
     property Item ballObj: ball
     property Item leftRacketObj: leftRacket
     property Item rightRacketObj: rightRacket
+    property Item leftResultObj: leftResult
+    property Item rightResultObj: rightResult
 
     Rectangle
     {
@@ -80,7 +82,7 @@ Rectangle{
 
     Text {
         id: leftResult
-        //text: pingPong.leftResult
+        text: "0"
         font.bold: true
         font.pixelSize: 30
         anchors.right: net.left
@@ -90,7 +92,7 @@ Rectangle{
 
     Text {
         id: rightResult
-        //text: pingPong.rightResult
+        text: "0"
         font.bold: true
         font.pixelSize: 30
         anchors.left: net.right
@@ -114,7 +116,7 @@ Rectangle{
         onTriggered: GameControler.tick()
     }
 
-    Component.onCompleted: GameControler.gameSetup(ballObj, leftRacketObj, rightRacketObj);
+    Component.onCompleted: GameControler.gameSetup(ballObj, leftRacketObj, rightRacketObj, leftResultObj, rightResultObj);
 
 
 }
