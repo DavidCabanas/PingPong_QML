@@ -4,7 +4,6 @@ import QtQuick.Controls 2.3
 Rectangle {
     id: rectangle
     color: "#023d09"
-
     gradient: Gradient {
         GradientStop {
             position: 0.379
@@ -46,7 +45,6 @@ Rectangle {
             anchors.bottomMargin: 1
             anchors.leftMargin: 48
             anchors.topMargin: 0
-
         }
     }
 
@@ -61,8 +59,6 @@ Rectangle {
         onClicked:  {
             pageLoader.source = "board.qml";
         }
-
-
     }
 
     Button {
@@ -78,7 +74,4 @@ Rectangle {
             Qt.quit()
         }
     }
-
-
-
 }
