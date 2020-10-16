@@ -1,6 +1,10 @@
 let     destination;
 let     destinationSet = false;
+let     resetGame = false;
 let     firstTick = false;
+let     ballBouncesPaddle = false;
+let     hypotenuse = 4;
+let     paddleSpeed = 5;
 const   distance = 1;
 const   gameWidth = 601;
 const   gameHeight = 301;
@@ -20,30 +24,35 @@ let     rightRacket;
 let     rightCounter = 0;
 let     leftResult;
 let     rightResult;
+let     youWin;
+let     youLose;
 let     previousStartingPoint = {'x':0 , 'y':0};
 let     previousBall = {'x':0 , 'y':0};
-let     hypotenuse = 10;
 let     endPoint = {'x':0, 'y':0};
 
-function gameSetup(ballObj, leftRacketObj, rightRacketObj, leftResultObj, rightResultObj){
+function gameSetup(ballObj, leftRacketObj, rightRacketObj, leftResultObj, rightResultObj, youWinObj, youLoseObj){
     ball = ballObj;
     leftRacket = leftRacketObj;
     rightRacket = rightRacketObj;
     leftResult = leftResultObj;
     rightResult = rightResultObj;
+    youWin = youWinObj;
+    youLose = youLoseObj;
 }
 
 function tick(){
-    console.log('tick')
-    boundariesBoard();
-    boundariesRackets();
-    destination = setDestination();
-    console.log("x: ", destination.x, " y: ", destination.y);
-    ball.x = destination.x;
-    ball.y = destination.y;
-    updateLocationRightRacket();
-    minWidth = 0;
-    maxWidth = 600;
+    if(resetGame === false){
+        console.log('tick')
+        boundariesBoard();
+        boundariesRackets();
+        destination = setDestination();
+        console.log("x: ", destination.x, " y: ", destination.y);
+        ball.x = destination.x;
+        ball.y = destination.y;
+        updateLocationRightRacket();
+        minWidth = 0;
+        maxWidth = 600;
+    }
 }
 
 function setDestination(){
@@ -115,14 +124,14 @@ function getDiagonalAngle(){
     startingPoint = {'x':ball.x, 'y':ball.y};
     middlePoint = getMiddlePointLocation();
 
-    if(startingPoint.x === minWidth || startingPoint.x === maxWidth){
+    if(startingPoint.x <= minWidth || startingPoint.x >= maxWidth){
         if(startingPoint.y > middlePoint.y){
             angle = Math.atan(maxWidth / startingPoint.y)
         }else{
             angle = Math.atan(maxWidth / (maxHeight - startingPoint.y))
         }
     }
-    if(startingPoint.y === minHeight || startingPoint.y === maxHeight){
+    if(startingPoint.y <= minHeight || startingPoint.y >= maxHeight){
         if(startingPoint.x > middlePoint.x){
             angle = Math.atan(maxHeight / startingPoint.x)
         }else{
@@ -430,6 +439,7 @@ function updateBallLocation(){
     let oppositeSide = 0, adjacentSide = 0;
 
     startingPoint = {'x':ball.x, 'y':ball.y};
+    increaseBallSpeed();
     adjacentSide = Math.cos(angleOne) * hypotenuse;
     oppositeSide = Math.sin(angleOne) * hypotenuse;
 
@@ -478,10 +488,12 @@ function boundariesRackets(){
     if(ball.x <= leftRacket.width && (ball.y >= leftRacket.y && (ball.y <= leftRacket.y + leftRacket.height) )){
         minWidth = leftRacket.width;
         endPoint = getEndPointFromLocation();
+        ballBouncesPaddle = true;
     }
     if(ball.x >= (maxWidth - rightRacket.width) && (ball.y >= rightRacket.y && (ball.y <= rightRacket.y + rightRacket.height) )){
         maxWidth = maxWidth - rightRacket.width;
         endPoint = getEndPointFromLocation();
+        ballBouncesPaddle = true;
     }
 }
 
@@ -494,7 +506,20 @@ function resultCounter(){
     if(ball.x >= maxWidth){
         leftCounter = leftCounter + 1;
         leftResult.text = leftCounter;
+        paddleSpeed = paddleSpeed + 2;
         resetBall();
+    }
+    if(leftCounter === 5){
+        paddleSpeed = 5;
+        hypotenuse = 4;
+        youWin.visible = true;
+        resetGame = true;
+    }
+    if(rightCounter === 5){
+        paddleSpeed = 5;
+        hypotenuse = 4;
+        youLose.visible = true;
+        resetGame = true;
     }
 }
 
@@ -502,15 +527,16 @@ function resetBall(){
     ball.x = mediumWidth;
     ball.y = minHeight;
     firstTick = false;
+    hypotenuse = 4;
 }
 
 function updateLocationRightRacket(){
     if(ball.x >= mediumWidth && previousStartingPoint.x < endPoint.x){
         if (ball.y > rightRacket.y){
-            rightRacket.y += 4;
+            rightRacket.y += paddleSpeed;
         }
         if (ball.y < rightRacket.y){
-            rightRacket.y -= 4;
+            rightRacket.y -= paddleSpeed;
         }
         if(rightRacket.y >= (maxHeight - rightRacket.height)){
             rightRacket.y = maxHeight - rightRacket.height;
@@ -518,6 +544,13 @@ function updateLocationRightRacket(){
         if(rightRacket.y <= minHeight){
             rightRacket.y = minHeight;
         }
+    }
+}
+
+function increaseBallSpeed(){
+    if(ballBouncesPaddle === true){
+        hypotenuse = hypotenuse + 1;
+        ballBouncesPaddle = false;
     }
 }
 

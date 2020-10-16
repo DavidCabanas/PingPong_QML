@@ -15,6 +15,8 @@ Rectangle{
     property Item rightRacketObj: rightRacket
     property Item leftResultObj: leftResult
     property Item rightResultObj: rightResult
+    property Item youWinObj: youWin
+    property Item youLoseObj: youLose
 
     Rectangle
     {
@@ -99,6 +101,33 @@ Rectangle{
         anchors.top: parent.top
         anchors.margins: 15
     }
+
+    Text {
+        id: youWin
+        x: 182
+        y: 90
+        width: 248
+        height: 61
+        text: "YOU WIN"
+        font.bold: true
+        font.pixelSize: 50
+        color: "#FFFFFF"
+        visible: false
+    }
+
+    Text {
+        id: youLose
+        x: 146
+        y: 90
+        width: 308
+        height: 70
+        text: "GAME OVER"
+        font.bold: true
+        font.pixelSize: 50
+        color: "#000000"
+        visible: false
+    }
+
     //Pelota
     Rectangle {
         id: ball
@@ -116,8 +145,7 @@ Rectangle{
         onTriggered: GameControler.tick()
     }
 
-    Component.onCompleted: GameControler.gameSetup(ballObj, leftRacketObj, rightRacketObj, leftResultObj, rightResultObj);
-
-
+    Component.onCompleted: GameControler.gameSetup(ballObj, leftRacketObj, rightRacketObj, leftResultObj, rightResultObj,
+                                                   youWinObj, youLoseObj);
 }
 
