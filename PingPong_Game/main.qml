@@ -11,15 +11,10 @@ Window {
     title: qsTr("Ping Pong")
     color: "#023d09"
 
-
-
-
     Component.onCompleted: pageLoader.source = "menu.qml"
 
     Loader {
         id: pageLoader
         anchors.fill: parent
     }
-
-
 }

@@ -11,6 +11,12 @@ Rectangle{
     height: 300
     color: "#0c3a01"
     property Item ballObj: ball
+    property Item leftRacketObj: leftRacket
+    property Item rightRacketObj: rightRacket
+    property Item leftResultObj: leftResult
+    property Item rightResultObj: rightResult
+    property Item youWinObj: youWin
+    property Item youLoseObj: youLose
 
     Rectangle
     {
@@ -78,7 +84,7 @@ Rectangle{
 
     Text {
         id: leftResult
-        //text: pingPong.leftResult
+        text: "0"
         font.bold: true
         font.pixelSize: 30
         anchors.right: net.left
@@ -88,13 +94,40 @@ Rectangle{
 
     Text {
         id: rightResult
-        //text: pingPong.rightResult
+        text: "0"
         font.bold: true
         font.pixelSize: 30
         anchors.left: net.right
         anchors.top: parent.top
         anchors.margins: 15
     }
+
+    Text {
+        id: youWin
+        x: 182
+        y: 90
+        width: 248
+        height: 61
+        text: "YOU WIN"
+        font.bold: true
+        font.pixelSize: 50
+        color: "#FFFFFF"
+        visible: false
+    }
+
+    Text {
+        id: youLose
+        x: 146
+        y: 90
+        width: 308
+        height: 70
+        text: "GAME OVER"
+        font.bold: true
+        font.pixelSize: 50
+        color: "#000000"
+        visible: false
+    }
+
     //Pelota
     Rectangle {
         id: ball
@@ -106,34 +139,13 @@ Rectangle{
         color: "#e1f708"
     }
     Timer{
-        interval: 16
+        interval: 30
         running: true
         repeat: true
         onTriggered: GameControler.tick()
     }
 
-        /*ParallelAnimation {
-            running: true
-            NumberAnimation {
-                target: ball
-                property: "x"
-
-
-                duration: 2000
-
-            }
-
-            NumberAnimation {
-                target: ball
-                property: "y"
-
-
-                duration: 2000
-            }
-
-        }*/
-
-    Component.onCompleted: GameControler.setBallObject(ballObj);
-
+    Component.onCompleted: GameControler.gameSetup(ballObj, leftRacketObj, rightRacketObj, leftResultObj, rightResultObj,
+                                                   youWinObj, youLoseObj);
 }
 
